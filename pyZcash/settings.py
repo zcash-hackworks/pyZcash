@@ -4,8 +4,12 @@ import os, re
 testnet = "http://localhost:18232" #testnet
 mainnet = "http://localhost:8232"
 regtest = "http://localhost:18444"
+if 'ZCASH_NETWORK' in os.environ:
+    ZCASH_NETWORK = os.getenv('ZCASH_NETWORK')
+    NETWORK = ZCASH_NETWORK
 # Default is testnet
-NETWORK = testnet
+else:
+    NETWORK = testnet
 
 #Timeout needs to be high for any pour operations
 TIMEOUT = 600
@@ -14,8 +18,8 @@ DEFAULT_FEE = 0.01
 
 # Try to get RPC parameters from environment
 if 'RPCUSER' in os.environ and 'RPCPASSWORD' in os.environ:
-    RPCUSER = os.getenviron('RPCUSER')
-    RPCPASSWORD = os.getenviron('RPCPASSWORD')
+    RPCUSER = os.getenv('RPCUSER')
+    RPCPASSWORD = os.getenv('RPCPASSWORD')
 else:
     zcashconf = os.path.expanduser('~/.zcash/zcash.conf')
     def read_config(filename):
