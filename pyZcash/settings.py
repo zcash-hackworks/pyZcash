@@ -4,29 +4,37 @@ import os, re
 testnet = "http://localhost:18232" #testnet
 mainnet = "http://localhost:8232"
 regtest = "http://localhost:18444"
+if 'ZCASH_NETWORK' in os.environ:
+    ZCASH_NETWORK = os.getenv('ZCASH_NETWORK')
+    NETWORK = ZCASH_NETWORK
 # Default is testnet
-NETWORK = testnet
+else:
+    NETWORK = testnet
 
 #Timeout needs to be high for any pour operations
 TIMEOUT = 600
 #Default fee to use on network for txs.
 DEFAULT_FEE = 0.01
 
-zcashconf = os.path.expanduser('~/.zcash/zcash.conf')
+# Try to get RPC parameters from environment
+if 'RPCUSER' in os.environ and 'RPCPASSWORD' in os.environ:
+    RPCUSER = os.getenv('RPCUSER')
+    RPCPASSWORD = os.getenv('RPCPASSWORD')
+else:
+    zcashconf = os.path.expanduser('~/.zcash/zcash.conf')
+    def read_config(filename):
+        f = open(filename)
+        for line in f:
+            if re.match('rpcuser', line):
+                user = line.strip('\n').split('=')[1]
+            if re.match('rpcpassword', line):
+                password = line.strip('\n').split('=')[1]
+        return (user, password)
 
-def read_config(filename):
-    f = open(filename)
-    for line in f:
-        if re.match('rpcuser', line):
-            user = line.strip('\n').split('=')[1]
-        if re.match('rpcpassword', line):
-            password = line.strip('\n').split('=')[1]
-    return (user, password)
-
-config = read_config(zcashconf)
-# from zcash conf
-RPCUSER = config[0]
-RPCPASSWORD = config[1]
+    config = read_config(zcashconf)
+    # from zcash conf
+    RPCUSER = config[0]
+    RPCPASSWORD = config[1]
 
 #TESTS
 #for tests (sample data here - replace with your own)
