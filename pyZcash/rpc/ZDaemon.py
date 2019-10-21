@@ -1,5 +1,6 @@
 import requests
 import json
+import binascii
 
 from pyZcash.settings import *
 
@@ -136,7 +137,7 @@ class ZDaemon(object):
 		if memo == '':
 			amounts = {"address": receiver, "amount": amount}
 		else:
-			memo = memo.encode('hex')
+			memo = binascii.hexlify(str.encode(memo))
 			amounts = {"address": receiver, "amount": amount, "memo": memo}
 		amts_array.append(amounts)
 		return self._call('z_sendmany', sender, amts_array, 1, fee)
