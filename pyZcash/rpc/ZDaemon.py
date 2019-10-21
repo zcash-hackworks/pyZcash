@@ -137,7 +137,7 @@ class ZDaemon(object):
 		if memo == '':
 			amounts = {"address": receiver, "amount": amount}
 		else:
-			memo = str(binascii.hexlify(str.encode(memo)))
+			memo = binascii.hexlify(str.encode(memo)).decode()
 			amounts = {"address": receiver, "amount": amount, "memo": memo}
 		amts_array.append(amounts)
 		return self._call('z_sendmany', sender, amts_array, 1, fee)
