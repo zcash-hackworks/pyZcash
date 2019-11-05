@@ -1,5 +1,6 @@
 import requests
 import json
+import binascii
 
 from pyZcash.settings import *
 
@@ -29,7 +30,7 @@ class ZDaemon(object):
 		#TODO: deal with errors better.
 		error = resp['error']
 		if error:
-			print error
+			print('Error calling {}:{}'.format(method, error))
 
 		return resp['result']
 
@@ -109,7 +110,7 @@ class ZDaemon(object):
 					addrs.append(utxo['address'])
 		for addr in addrs:
 			res = self._call('z_shieldcoinbase', addr, zaddr)
-			print res
+			print('{}'.format(res))
 
 	# zaddr methods
 	def z_gettotalbalance(self):
@@ -136,7 +137,7 @@ class ZDaemon(object):
 		if memo == '':
 			amounts = {"address": receiver, "amount": amount}
 		else:
-			memo = memo.encode('hex')
+			memo = binascii.hexlify(str.encode(memo)).decode()
 			amounts = {"address": receiver, "amount": amount, "memo": memo}
 		amts_array.append(amounts)
 		return self._call('z_sendmany', sender, amts_array, 1, fee)
