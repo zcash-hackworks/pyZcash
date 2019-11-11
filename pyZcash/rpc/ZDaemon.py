@@ -42,7 +42,7 @@ class ZDaemon(object):
 	def getBlockByHash(self, blockhash):
 		return self._call('getblock', blockhash)
 
-	def getrawtransaction(self, txid):
+	def getRawTransaction(self, txid):
 		return self._call('getrawtransaction', txid, 1)
 
 	def getBlockByHeight(self, blockheight):
@@ -52,19 +52,19 @@ class ZDaemon(object):
 	def getNetworkHeight(self):
 		return self._call('getblockcount')
 
-	def getinfo(self):
+	def getInfo(self):
 		return self._call('getinfo')
 
-	def getchaintips(self):
+	def getChainTips(self):
 		return self._call('getchaintips')
 
-	def getmempoolinfo(self):
+	def getMempoolInfo(self):
 		return self._call('getmempoolinfo')
 
-	def getnetworksolps(self):
+	def getNetworkSolps(self):
 		return self._call('getnetworksolps')
 
-	def getnettotals(self):
+	def getNetTotals(self):
 		return self._call('getnettotals')
 
 	def getNetworkDifficulty(self):
