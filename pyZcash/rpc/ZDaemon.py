@@ -42,12 +42,30 @@ class ZDaemon(object):
 	def getBlockByHash(self, blockhash):
 		return self._call('getblock', blockhash)
 
+	def getRawTransaction(self, txid):
+		return self._call('getrawtransaction', txid, 1)
+
 	def getBlockByHeight(self, blockheight):
 		return self.getBlockByHash(self.getBlockHash(blockheight))
 
 	# Custom methods to get Network Info
 	def getNetworkHeight(self):
 		return self._call('getblockcount')
+
+	def getInfo(self):
+		return self._call('getinfo')
+
+	def getChainTips(self):
+		return self._call('getchaintips')
+
+	def getMempoolInfo(self):
+		return self._call('getmempoolinfo')
+
+	def getNetworkSolps(self):
+		return self._call('getnetworksolps')
+
+	def getNetTotals(self):
+		return self._call('getnettotals')
 
 	def getNetworkDifficulty(self):
 		return self._call('getdifficulty')
